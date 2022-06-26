@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Mock Python server</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="mx-8 my-4 md:mx-10 md:my-10">
+        <h1 class="text-3xl font-bold text-blue-800">Lab Mock Server</h1>
+        <p class="my-4 text-gray-500 lg:max-w-lg">
+        This is a mock server that displays a set of environment variables.
+        It's intended to be used with an Anomaly lab to test a Terraform 
+        environment. Anomaly uses Python on the server and this mimics what
+        a Dockerised environment would look like. 
+        </p>
+        <p class="my-4 font-black text-red-500 lg:max-w-lg text-upper">
+        Do not use this in any production context
+        </p>
+        {% for section in ENVIRONMENT %}
+        <h2 class="text-xl font-bold text-gray-800">{{ section.name }}</h2>
+        <p>{{ section.description }}</p>
+        <table class="mt-6 mb-10 text-gray-900 table-auto">
+            <thead>
+            <tr class="text-left">
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for var in section.vars %}
+            <tr class="mb-2 font-mono">
+                <td>
+                 <span class="p-1 bg-gray-100 border-2 border-gray-800 rounded-md">
+                 {{ var.name }}
+                 </span>
+                </td>
+                <td>{{ var.value }}</td>    
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+        <footer class="mt-4 text-sm text-gray-500">
+        &copy; Anomaly Software. Licensed under the Apache 2.0 license
+        </footer>
+    </body>
+</html>
