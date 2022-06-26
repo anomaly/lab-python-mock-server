@@ -1,0 +1,27 @@
+# The aim of this docker compose file is to provide a good known
+# way to build your docker-compose file for Anomaly projects
+# 
+# This file provides you a template for your development environment
+
+# https://docs.docker.com/compose/compose-file/compose-versioning/
+version: "3.8"
+
+volumes:
+  lab_mock:
+
+services:
+
+  # Mock application
+  # - In development we read secrets from .env.development
+  # - Provides a FastAPI based API that runs using uvicorn in development
+  lab_mock:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env.development
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src/lab_mock:/opt/lab_mock
