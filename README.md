@@ -1,4 +1,5 @@
 # Lab - Mock Python server
+![Docker Pulls](https://img.shields.io/docker/pulls/anomalyhq/lab-python-mock-server)
 
 Anomaly uses Python for all of their server side requirements. This lab providers a containerized version of the Python server that mocks the presence of a server and simply outputs a static page with a list of key value pairs that it obtains from the container's environment.
 
