@@ -41,6 +41,8 @@ The application is built using the [Flask](https://flask.palletsprojects.com/en/
 
 It uses `asgiref` to create an `ASGI` wrapper for the Flask application.
 
+To make things look nice, we use [Tailwind CSS](https://tailwindcss.com/), delivered via their [CDN](https://tailwindcss.com/docs/installation/play-cdn).
+
 ## Resources
 
 - [Deploying FastAPI apps with HTTPS powered by Traefik](https://traefik.io/resources/traefik-fastapi-kuberrnetes-ai-ml/) by Sebastián Ramírez
