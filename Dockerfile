@@ -3,7 +3,7 @@
 
 # Base image for Python applications
 # This image is particularly for a web server using uvicorn
-FROM python:3.10-slim-buster
+FROM python:3.11-slim-bullseye
 
 ENV APP=labs
 
