@@ -20,7 +20,7 @@
         {% for section in ENVIRONMENT %}
         <h2 class="text-xl font-bold text-gray-800">{{ section.name }}</h2>
         <p>{{ section.description }}</p>
-        <table class="mt-6 mb-10 text-gray-900 table-auto">
+        <table class="text-gray-900 border-separate table-auto border-spacing-y-4">
             <thead>
             <tr class="text-left">
                 <th>Name</th>
@@ -29,7 +29,7 @@
             </thead>
             <tbody>
             {% for var in section.vars %}
-            <tr class="mb-2 font-mono">
+            <tr class="font-mono">
                 <td>
                  <span class="p-1 bg-gray-100 border-2 border-gray-800 rounded-md">
                  {{ var.name }}
