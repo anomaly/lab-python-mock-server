@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lab_mock"
-version = "0.1.0"
+version = "0.2.0"
 description = "A mock python web app for Anomaly labs"
 authors = ["Dev Mukherjee <devraj@gmail.com>"]
 license = "Apache 2.0"
