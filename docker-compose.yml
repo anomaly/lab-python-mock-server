@@ -11,10 +11,49 @@ volumes:
 
 services:
 
+  reverse-proxy:
+    container_name: reverse-proxy
+    image: traefik:v3.0
+    command:
+      # Remove this for production, this exposes the web UI
+      - "--api.insecure=true"
+      - "--providers.docker"
+    # healthcheck:
+    #   test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:8080/health"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    ports:
+      # Remove this for production, this is the web UI
+      - 8080:8080
+      - 80:80
+      - 443:443
+    labels:
+      # Send X-Frame-Options to DENY
+      - "traefik.http.middlewares.testheader.headers.frameDeny=true"
+      # HSTS security headers
+      # the time has been set to one non-leap year
+      - "traefik.http.middlewares.testheader.headers.stsSeconds=315360000"
+      - "traefik.http.middlewares.testheader.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.testheader.headers.stsPreload=true"
+      # set the hsts header even in http - see if this required
+      - "traefik.http.middlewares.testheader.headers.forceSTSHeader=true" 
+    restart: unless-stopped
+    volumes:
+      # This is to expose the docker socker to the reverse proxy
+      # for it to use the docker provider
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    # The reverse proxy should be the last thing to be started
+    # it depends on the entire stack to be healthy
+    depends_on:
+      - lab_mock
+
+
   # Mock application
   # - In development we read secrets from .env.development
   # - Provides a FastAPI based API that runs using uvicorn in development
   lab_mock:
+    container_name: lab_mock
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,3 +64,6 @@ services:
       - "8000:80"
     volumes:
       - ./src/lab_mock:/opt/lab_mock
+networks:
+  default:
+    name: ${PROJ_NAME}-network
