@@ -13,6 +13,7 @@ asgiref = "^3.6.0"
 markupsafe = "^2.1.2"
 werkzeug = "^2.2.3"
 h11 = "^0.14.0"
+boto3 = "^1.26.157"
 
 [tool.poetry.dev-dependencies]
 
