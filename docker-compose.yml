@@ -29,7 +29,7 @@ services:
       # In production this would be proxied through traefik
       - "8000:80"
     volumes:
-      - ./src/lab_mock:/opt/lab_mock
+      - ./src/:/opt/
 networks:
   default:
     name: ${PROJ_NAME}-network

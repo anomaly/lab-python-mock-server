@@ -18,7 +18,7 @@ RUN apt-get update \
 
 # Copy the files in the src directory which is the app package
 # and the dependency matrix dedescribed by pyproject.toml
-WORKDIR /opt/lab_mock
+WORKDIR /opt
 COPY ./src/. .
 
 # Ask poetry to install all packages including the app
@@ -31,8 +31,12 @@ RUN poetry install --no-root
 
 # The app package will be located in /opt/appname so run
 # uvicorn at this level so it sees the package
-WORKDIR /opt/
 ENTRYPOINT ["uvicorn", "lab_mock:app", "--host=0.0.0.0", "--port=80", "--reload"]
 
 # There can only be one CMD argument
 CMD []
+
+# Labels are used to identify the image
+LABEL org.opencontainers.image.source="https://github.com/anomaly/lab-python-mock-server"
+LABEL org.opencontainers.image.description="A Python web server using Flask"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
