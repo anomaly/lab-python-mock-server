@@ -1,6 +1,6 @@
 # The aim of this docker compose file is to provide a good known
 # way to build your docker-compose file for Anomaly projects
-# 
+#
 # This file provides you a template for your development environment
 
 # https://docs.docker.com/compose/compose-file/compose-versioning/
@@ -9,73 +9,9 @@ version: "3.8"
 # These are volumes managed by Docker 
 volumes:
   lab_mock:
-  letsencrypt:
+
 
 services:
-
-  reverse-proxy:
-    container_name: reverse-proxy
-    image: traefik:v3.0
-    # healthcheck:
-    #   test: ["CMD", "wget", "-q", "-O", "-", "http://localhost:8080/health"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 3    
-    command:
-      # Remove this for production, this exposes the web UI
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.http.http.redirections.entryPoint.to=:443"
-      - "--entrypoints.http.http.redirections.entryPoint.scheme=https"
-      - "--entrypoints.http.http.redirections.entrypoint.permanent=true"
-      - "--entrypoints.https.address=:443"
-      # This allows us to use the staging server for development
-      # We could potentially move this to a variable name
-      #- "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
-      - "--certificatesResolvers.letsencrypt.acme.email=${SOA_EMAIL}"
-      - "--certificatesResolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesResolvers.letsencrypt.acme.httpChallenge.entrypoint=http"
-    ports:
-      - "80:80"
-      - "443:443"
-    labels:
-      - "traefik.enable=true"
-      # Minimum SSL version set to TLS 1.2
-      - "traefik.http.routers.${PROJ_NAME}-root.tls"
-      # The rule host will determine what domain the SSL cert
-      # will be provisioned for
-      - "traefik.http.routers.${PROJ_NAME}-root.rule=Host(`${PROJ_FQDN}`)"
-      - "traefik.http.routers.${PROJ_NAME}-root.tls.certResolver=letsencrypt"
-      - "traefik.tls.options.default.minVersion=VersionTLS12"
-      # Proxy the bucket or another container for the web client
-      - "traefik.http.middlewares.bucket-header.headers.customrequestheaders.host=${BUCKET_FQDN}"  
-      # Declare a service to reverer proxy
-      - "traefik.http.services.bucket-service.loadbalancer.server.url=http://${BUCKET_FQDN}"
-      # Declare a router and attach the service to it
-      - "traefik.http.routers.web-client.entrypoints=https"
-      - "traefik.http.routers.web-client.rule=Host(`${PROJ_FQDN}`)"
-      - "traefik.http.routers.web-client.service=bucket-service"
-      - "traefik.http.routers.web-client.middlewares=bucket-header"
-      # Send X-Frame-Options to DENY
-      - "traefik.http.middlewares.testheader.headers.frameDeny=true"
-      # HSTS security headers
-      # the time has been set to one non-leap year
-      - "traefik.http.middlewares.testheader.headers.stsSeconds=315360000"
-      - "traefik.http.middlewares.testheader.headers.stsIncludeSubdomains=true"
-      - "traefik.http.middlewares.testheader.headers.stsPreload=true"
-      # set the hsts header even in http - see if this required
-      - "traefik.http.middlewares.testheader.headers.forceSTSHeader=true" 
-    restart: unless-stopped
-    volumes:
-      # This is to expose the docker socker to the reverse proxy
-      # for it to use the docker provider
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - letsencrypt:/letsencrypt
-    # The reverse proxy should be the last thing to be started
-    # it depends on the entire stack to be healthy
-    depends_on:
-      - lab_mock
 
   # Mock application
   # - In development we read secrets from .env.development
@@ -87,17 +23,6 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env.development
-    labels:
-      # Explicitly tell Traefik to expose this container
-      - "traefik.enable=true"
-      # Declare a middleware that strips the api prefix, this 
-      # is required for FastaPI to mount on the root and for us
-      # to proxy the urls on the /api endpoint
-      - "traefik.http.middlewares.strip-api-prefix.stripprefix.prefixes=/api/"
-      # The router for this container is going to respond to the host
-      # of the project and root level url
-      - "traefik.http.routers.${PROJ_NAME}-api.rule=Host(`${PROJ_FQDN}`) && PathPrefix(`/api/`)"
-      - "traefik.http.routers.${PROJ_NAME}-api.middlewares=strip-api-prefix"
     restart: unless-stopped
     ports:
       # This is to test if the app is working locally

@@ -14,6 +14,7 @@ https://github.com/anomaly/lab-python-server
 
 """
 __name__ = "lab_mock"
+__version__ = "0.3.0"
 
 import os
 from asgiref.wsgi import WsgiToAsgi
