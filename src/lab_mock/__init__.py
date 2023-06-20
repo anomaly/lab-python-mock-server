@@ -86,9 +86,6 @@ def lab_mock():
     template = jinja2_env.get_template('index.jinja2')
     return template.render(ENVIRONMENT=_TEMPLATE_VARS)
 
-
-
-
 # WSGI to ASGI middleware
 # https://flask.palletsprojects.com/en/2.1.x/deploying/asgi/
 app = WsgiToAsgi(wsgi_app)
