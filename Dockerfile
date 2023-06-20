@@ -5,8 +5,6 @@
 # This image is particularly for a web server using uvicorn
 FROM python:3.11-slim-bullseye
 
-ENV APP=labs
-
 # Expose ports which is proxied via traefik
 EXPOSE 80
 
