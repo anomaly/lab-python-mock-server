@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "lab-python-mock-server.fullname" . }}-test-connection"
+  labels:
+    {{- include "lab-python-mock-server.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "lab-python-mock-server.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
