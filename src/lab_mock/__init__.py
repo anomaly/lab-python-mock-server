@@ -14,7 +14,7 @@ https://github.com/anomaly/lab-python-server
 
 """
 __name__ = "lab_mock"
-__version__ = "0.5.0"
+__version__ = "0.7.0"
 
 import os
 from asgiref.wsgi import WsgiToAsgi
@@ -53,6 +53,7 @@ _ENV_LIST = [
     }
 ]
 
+
 @wsgi_app.route('/')
 def lab_mock():
     """
@@ -85,6 +86,7 @@ def lab_mock():
 
     template = jinja2_env.get_template('index.jinja2')
     return template.render(ENVIRONMENT=_TEMPLATE_VARS)
+
 
 # WSGI to ASGI middleware
 # https://flask.palletsprojects.com/en/2.1.x/deploying/asgi/
