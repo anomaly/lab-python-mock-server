@@ -15,6 +15,20 @@ files = [
 tests = ["mypy (>=0.800)", "pytest", "pytest-asyncio"]
 
 [[package]]
+name = "aws-secretsmanager-caching"
+version = "1.1.1.5"
+description = "Client-side AWS Secrets Manager caching library"
+optional = false
+python-versions = ">3.5"
+files = [
+    {file = "aws_secretsmanager_caching-1.1.1.5-py3-none-any.whl", hash = "sha256:6afb0233b6ae0183b518138e79b3a53f26432f3a71b03df99801e02e2456adc0"},
+    {file = "aws_secretsmanager_caching-1.1.1.5.tar.gz", hash = "sha256:5cee2762bb89b72f3e5123feee8e45fbe44ffe163bfca08b28f27b2e2b7772e1"},
+]
+
+[package.dependencies]
+botocore = "*"
+
+[[package]]
 name = "blinker"
 version = "1.6.2"
 description = "Fast, simple object-to-object and broadcast signaling"
@@ -315,4 +329,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "08f3072d6562a814f49aba01a146c43bf8c5a6bc597d1ad33c37ef172c21159b"
+content-hash = "6f6a2ecd4d08e873d6735d81d5c140efd93382d886f872b437311aed3ac0f8fc"

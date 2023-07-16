@@ -14,6 +14,7 @@ markupsafe = "^2.1.2"
 werkzeug = "^2.2.3"
 h11 = "^0.14.0"
 boto3 = "^1.26.157"
+aws-secretsmanager-caching = "^1.1.1.5"
 
 [tool.poetry.dev-dependencies]
 
