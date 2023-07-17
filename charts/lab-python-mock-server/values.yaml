@@ -48,7 +48,7 @@ ingress:
     alb.ingress.kubernetes.io/target-type: instance
   hosts:
     - paths:
-        - path: /
+        - path: /echo
           pathType: Prefix
   tls: []
   #  - secretName: chart-example-tls
